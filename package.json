@@ -1,0 +1,99 @@
+{
+  "name": "trl-events-listener",
+  "version": "0.1.0",
+  "description": "A server who listen events from TRL smart contracts and push them to a rabbitmq queue",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Frontier-project/trlListener/"
+  },
+  "author": "Abdalah-Hossayn Mokhtar Bacha <mokhtar.bacha@consensys.net>",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "start": "npm run serve",
+    "start:testrpc": "ganache-cli -p 7545 -i 5777",
+    "start:testrpc-trl": "ganache-cli -p 7545 -i 5777 -m 'brand insane federal bargain nice pilot recall zero disagree action arrive hint'",
+    "build": "npm run build-ts && npm run tslint",
+    "semantic-release": "semantic-release",
+    "serve": "node dist/src/server.js",
+    "watch": " nodemon -e ts -x ts-node src/server.ts",
+    "test": "nyc mocha -r ts-node/register tests/**/*.spec.ts --exit && cp ./coverage/coverage-final.json ./coverage/coverage.json",
+    "test-trl-int": "nyc mocha -r ts-node/register tests/3_trl-integration.ts --exit && cp ./coverage/coverage-final.json ./coverage/coverage.json",
+    "commit": "npx git-cz",
+    "watch-test": "npm run test -- --watchAll",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "coverage": "npm run test"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "json"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  },
+  "dependencies": {
+    "@frontier-token-research/frontier-js": "1.8.8",
+    "@types/pino": "^4.7.1",
+    "abi-decoder": "^1.1.0",
+    "amqplib": "^0.5.2",
+    "dotenv": "^4.0.0",
+    "pino": "^4.16.1",
+    "web3": "1.0.0-beta.30",
+    "web3-utils": "^1.0.0-beta.35"
+  },
+  "devDependencies": {
+    "@frontier-token-research/trl-contracts-poc": "4.0.0",
+    "@types/async": "^2.0.45",
+    "@types/chai": "^4.1.4",
+    "@types/dotenv": "^4.0.2",
+    "@types/errorhandler": "^0.0.32",
+    "@types/lusca": "^1.5.0",
+    "@types/mocha": "^5.2.5",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^9.4.6",
+    "@types/shelljs": "^0.7.8",
+    "@types/supertest": "^2.0.4",
+    "@types/winston": "^2.3.7",
+    "chai": "^4.1.2",
+    "codecov": "^3.0.4",
+    "commitizen": "^2.10.1",
+    "concurrently": "^3.5.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.13.0",
+    "nyc": "^12.0.2",
+    "semantic-release": "^15.5.1",
+    "semantic-release-docker": "^2.1.0",
+    "shelljs": "^0.8.1",
+    "supertest": "^3.0.0",
+    "truffle-contract": "^3.0.6",
+    "ts-node": "^5.0.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.2"
+  },
+  "release": {
+    "verifyConditions": "semantic-release-docker",
+    "publish": {
+      "path": "semantic-release-docker",
+      "name": "frontiertokenresearch/trl-listener"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
